@@ -1,0 +1,22 @@
+{
+  "policyHolder": {
+    "fullName": "Anna Müller",
+    "dob": "20-09-1985",
+    "address": "Musterstraße 123, Stadtstadt, Bundesland",
+    "contactNumber": "+49123456789",
+    "email": "anna.mueller@example.de"
+  },
+  "incident": {
+    "date": "05-03-2024",
+    "location": "Eichenweg 12, Stadtstadt, Bundesland",
+    "description": "Autounfall auf dem Weg zur Arbeit"
+  },
+  "damageDetails": {
+    "estimatedCost": 6000.00,
+    "description": "Beschädigung der vorderen Stoßstange und des linken Scheinwerfers",
+    "photos": [
+      "https://example.de/foto1.jpg",
+      "https://example.de/foto2.jpg"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+<form role="form" name="form">
+    <div class="form-group">
+        <label for="documentName">Document Name</label>
+        <input id="documentName" type="text"
+               cam-variable-name="documentName"
+               cam-variable-type="String"/>
+    </div>
+    <div class="form-group">
+        <label for="uploadDocument">Upload Document</label>
+        <input id="uploadDocument"
+               type="file"
+               cam-variable-name="claimDocument"
+               cam-variable-type="File"
+               cam-max-filesize="10000000"/>
+    </div>
+</form>

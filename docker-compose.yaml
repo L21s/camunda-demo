@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  insurance-claim-demo:
+    image: openjdk:17-oracle
+    volumes:
+      - ./target:/app
+    command: java -jar /app/insurance-claim-demo-1.0.0-SNAPSHOT.jar
+    ports:
+      - "8080:8080"
+    networks:
+      - camunda
+
+  risk:
+    image: openjdk:17-oracle
+    volumes:
+      - ./risk/target:/app
+    command: java -jar /app/risk-0.0.1-SNAPSHOT.jar
+    ports:
+      - "8090:8090"
+    networks:
+      - camunda
+
+  external_task_client:
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - ./external_task_client:/app
+    command: bash -c "npm install && npm start"
+    networks:
+      - camunda
+
+networks:
+    camunda:
+        driver: bridge
