@@ -11,3 +11,5 @@ node_modules/
 *.iml
 *.iws
 *.ipr
+
+.DS_Store

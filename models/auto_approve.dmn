@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_0brsl0s" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.20.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
+  <decision id="autoApprove" name="AutoApprove" camunda:historyTimeToLive="180">
+    <decisionTable id="DecisionTable_17300mr" hitPolicy="FIRST">
+      <input id="Input_1" label="Risk " camunda:inputVariable="risk">
+        <inputExpression id="InputExpression_1" typeRef="double">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0k11xx5" label="Damage" camunda:inputVariable="estimatedCost">
+        <inputExpression id="LiteralExpression_10711nl" typeRef="double">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Automatic approval" name="autoApprove" typeRef="boolean" />
+      <rule id="DecisionRule_0vve9fj">
+        <inputEntry id="UnaryTests_1005hbp">
+          <text>&lt; 40</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1b2yc1h">
+          <text>&lt; 1000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_156xuza">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1nmjjsi">
+        <inputEntry id="UnaryTests_0fxfbek">
+          <text>&lt; 40</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19t7t1x">
+          <text>1000-5000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15zcwx0">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_16to5z9">
+        <inputEntry id="UnaryTests_0y8spqu">
+          <text>40-60</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kkc4dg">
+          <text>&lt; 1000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0xc5rgf">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1j7dzfo">
+        <inputEntry id="UnaryTests_0bie67d">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08nmfe3">
+          <text>&gt; 5000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_187or93">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0gl87k0">
+        <inputEntry id="UnaryTests_149ra9o">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nss962">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0bu5kc7">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="autoApprove">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
