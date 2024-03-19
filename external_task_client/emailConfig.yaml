@@ -1,0 +1,7 @@
+service: "l21s"
+host: "smtp.l21s.de"
+port: 465
+secure: true
+auth:
+  user: "kyrylo@l21s.de"
+  pass: "password"

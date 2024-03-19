@@ -1,28 +1,35 @@
 import nodemailer from "nodemailer";
+import fs from "fs/promises";
+import yaml from "js-yaml";
 
-// CONFIGURE YOUR EMAIL SETTINGS HERE
-const emailConfig = {
-    service: "",
-    host: "",
-    port: 123,
-    secure: true,
-    auth: {
-        user: "",
-        pass: "",
+const loadEmailConfig = async () => {
+    console.log("Loading email configuration");
+    
+    const requiredFields = ["host", "port", "secure", "auth"];
+    const data = await fs.readFile("emailConfig.yaml", "utf8");
+    const config = yaml.load(data);
+
+    if (!requiredFields.every(field => config[field])) {
+        throw new Error("Email configuration is missing required fields");
     }
+
+    return config;
 }
+
+const emailConfig = await loadEmailConfig();
 
 const transporter = nodemailer.createTransport(emailConfig);
 
 function createEmailHandler(messageType) {
     return async function ({task, taskService}) {
         console.log("Sending notification", messageType.toLocaleLowerCase().replace("_", " "))
+
         const to = task.variables.get("email");
         const subject = messageTypeToSubject(messageType);
         const body = generateEmailBody(messageType, task.variables.get("fullName"));
-        // CONFIGURE YOUR EMAIL SETTINGS HERE
+
         await transporter.sendMail({
-            from: "",
+            from: emailConfig.auth.user,
             to,
             subject,
             text: body,
