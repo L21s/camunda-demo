@@ -4,7 +4,7 @@ import yaml from "js-yaml";
 
 const loadEmailConfig = async () => {
     console.log("Loading email configuration");
-    
+
     const requiredFields = ["host", "port", "secure", "auth"];
     const data = await fs.readFile("emailConfig.yaml", "utf8");
     const config = yaml.load(data);

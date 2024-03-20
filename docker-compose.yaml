@@ -29,6 +29,8 @@ services:
     volumes:
       - ./external_task_client:/app/external_task_client
     command: bash -c "npm install && npm start"
+    depends_on:
+      - insurance-claim-demo
     networks:
       - camunda
 
