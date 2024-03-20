@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historic Process Instances</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h1>Historic Process Instances</h1>
+<table id="processInstancesTable">
+    <thead>
+    <tr>
+        <th>Process Instance ID</th>
+        <th>Start Time</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Estimated Cost</th>
+        <th>Risk</th>
+    </tr>
+    </thead>
+    <tbody id="processInstancesBody">
+    </tbody>
+</table>
+
+<script>
+    fetch('http://localhost:8080/engine-rest/history/process-instance')
+        .then(response => response.json())
+        .then(data => {
+            const processInstancesBody = document.getElementById('processInstancesBody');
+            data.forEach(async instance => {
+                const variablesResponse = await fetch(`http://localhost:8080/engine-rest/history/variable-instance?processInstanceId=${instance.id}`);
+                const variablesData = await variablesResponse.json();
+                const variables = {};
+                variablesData.forEach(variable => {
+                    variables[variable.name] = variable.value;
+                });
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+            <td>${instance.id}</td>
+            <td>${instance.startTime}</td>
+            <td>${variables.fullName}</td>
+            <td>${variables.email}</td>
+            <td>${variables.estimatedCost}</td>
+            <td>${variables.risk}</td>
+          `;
+                processInstancesBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching process instances:', error);
+        });
+</script>
+</body>
+</html>

@@ -34,6 +34,19 @@ services:
     networks:
       - camunda
 
+  express_server:
+    image: node:latest
+    working_dir: /app/express_server
+    volumes:
+      - ./express_server:/app/express_server
+    command: bash -c "npm install && npm start"
+    ports:
+      - "8081:8081"
+    depends_on:
+      - insurance-claim-demo
+    networks:
+      - camunda
+
 networks:
     camunda:
         driver: bridge
