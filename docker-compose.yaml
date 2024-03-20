@@ -4,8 +4,9 @@ services:
   insurance-claim-demo:
     image: openjdk:17-oracle
     volumes:
-      - ./target:/app
-    command: java -jar /app/insurance-claim-demo-1.0.0-SNAPSHOT.jar
+      - .:/app
+    working_dir: /app
+    command: bash -c "./mvnw clean install && java -jar target/insurance-claim-demo-1.0.0-SNAPSHOT.jar"
     ports:
       - "8080:8080"
     networks:
@@ -14,8 +15,9 @@ services:
   risk:
     image: openjdk:17-oracle
     volumes:
-      - ./risk/target:/app
-    command: java -jar /app/risk-0.0.1-SNAPSHOT.jar
+      - ./risk:/app/risk
+    working_dir: /app/risk
+    command: bash -c "./mvnw clean install && java -jar target/risk-0.0.1-SNAPSHOT.jar"
     ports:
       - "8090:8090"
     networks:
@@ -23,9 +25,9 @@ services:
 
   external_task_client:
     image: node:latest
-    working_dir: /app
+    working_dir: /app/external_task_client
     volumes:
-      - ./external_task_client:/app
+      - ./external_task_client:/app/external_task_client
     command: bash -c "npm install && npm start"
     networks:
       - camunda
