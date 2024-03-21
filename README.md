@@ -1,7 +1,7 @@
 # insurance-claim-demo
 Das demo Projekt implementiert ein beispielhaftes Prozess zur verarbeitung eines Versicherungsanspruchs. Der Prozess ist durch das folgende BPMN Diagramm beschrieben:
 
-![insurance claim process BPMN]([url](https://github.com/kerilz/insurance-claim-demo/blob/main/claim.png))
+![insurance claim process BPMN](https://github.com/kerilz/insurance-claim-demo/blob/7437c7ed763d91b2230f6aeb61a11e4b7d513467/claim.png)
 
 **Projektstruktur:**
 
@@ -20,7 +20,7 @@ Das demo Projekt implementiert ein beispielhaftes Prozess zur verarbeitung eines
 - Ein Mitarbeiter lädt Dokumente hoch.
 - Dokumente werden validiert (nur PFD ist akzeptiert), falls eine nicht-PDF Datei hochgeladen wurde, geht der Prozess zurück zum letzten Schritt.
 - Durch das folgende [DMN](https://en.wikipedia.org/wiki/Decision_Model_and_Notation) Modell wird entschieden ob Automatische Genehmigung des Anspruchs <br>
-![claim DMN]([url](https://github.com/kerilz/insurance-claim-demo/blob/main/dmn.png))
+![claim DMN](https://github.com/kerilz/insurance-claim-demo/blob/7437c7ed763d91b2230f6aeb61a11e4b7d513467/dmn.png)
 - Falls Automatische Genehmigung möglich ist, wird gleich eine Bezahlung an den Versicherungsnehmer initiiert (implementiert durch [Java Delegate](https://docs.camunda.org/manual/7.20/user-guide/process-engine/delegation-code/#java-delegate))
 - Falls keine Automatische Genehmigung möglich ist, wird der Anspruch manuell durch einen Mitarbeiter Genehmigt oder Abgelehnt
 - In beiden Fällen wird an den Versicherungsnehmer eine entsprechende Nachricht verschickt.
