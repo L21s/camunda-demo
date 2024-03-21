@@ -47,6 +47,7 @@ curl --location 'http://localhost:8080/engine-rest/process-definition/key/insura
 }'
 ```
 - Die User Tasks werden unter `http://localhost:8080/camunda/app/tasklist/` erledigt, Ausführung der Service Tasks kann man in den Logs nachfolgen.
+- Alle Prozessinstanzen kann man unter `localhost:8081` einsehen.
 
 
 **Weitere Infos:**
