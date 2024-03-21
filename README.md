@@ -13,17 +13,19 @@ Das demo Projekt implementiert ein beispielhaftes Prozess zur verarbeitung eines
 
 **Ablauf:**
 
-- Der Prozess fängt an mit Einreichen von Versicherungsanspruchsdaten durch den Versicherungsnehmer. Die beispielhafte Daten findet man unter ./demoData.json.
-- Die Daten werden durch einen [External Task Worker](https://docs.camunda.org/manual/7.20/user-guide/ext-client/) validiert und gespeichert
-- Der Anspruch wird durch einen Mitarbeiter (implementiert als [User Task](https://docs.camunda.org/manual/7.20/reference/bpmn20/tasks/user-task/)) registriert, falls die Daten valide sind, andererfals wird ein [Error Boundary Event](https://docs.camunda.org/manual/7.20/reference/bpmn20/events/error-events/#error-boundary-event) den Prozess in andere Richtung führen. Versicherungsnehmer wird durch einen Mitarbeiter für Unterstützung kontaktiert. In beiden Fällen bekommt der Versicherungsnehmer entsprechende Nachricht, die auch vom External Task Worker verschickt wird.
-- Parallel zum Verschicken der Nachricht über Erfolgreiche Registrierung des Anspruchs wird das Risiko (Dubiosität) des Anspruchs geschätzt. External Task Worker schickt eine Anfrage ans Risikobewertungservice.
-- Ein Mitarbeiter lädt Dokumente hoch.
-- Dokumente werden validiert (nur PFD ist akzeptiert), falls eine nicht-PDF Datei hochgeladen wurde, geht der Prozess zurück zum letzten Schritt.
-- Durch das folgende [DMN](https://en.wikipedia.org/wiki/Decision_Model_and_Notation) Modell wird entschieden ob Automatische Genehmigung des Anspruchs <br>
+1. Der Prozess fängt an mit Einreichen von Versicherungsanspruchsdaten durch den Versicherungsnehmer. Die beispielhafte Daten findet man unter ./demoData.json.
+2. Die Daten werden durch einen [External Task Worker](https://docs.camunda.org/manual/7.20/user-guide/ext-client/) validiert und gespeichert
+3. Der Anspruch wird durch einen Mitarbeiter (implementiert als [User Task](https://docs.camunda.org/manual/7.20/reference/bpmn20/tasks/user-task/)) registriert, falls die Daten valide sind, andererfals wird ein [Error Boundary Event](https://docs.camunda.org/manual/7.20/reference/bpmn20/events/error-events/#error-boundary-event) den Prozess in andere Richtung führen. Versicherungsnehmer wird durch einen Mitarbeiter für Unterstützung kontaktiert. In beiden Fällen bekommt der Versicherungsnehmer entsprechende Nachricht, die auch vom External Task Worker verschickt wird.
+4.
+   - Nachricht über Erfolgreiche Registrierung des Anspruchs wird verschickt.
+   - Das Risiko (Dubiosität) des Anspruchs wird geschätzt. External Task Worker schickt eine Anfrage ans Risikobewertungservice.
+5. Ein Mitarbeiter lädt Dokumente hoch.
+6. Dokumente werden validiert (nur PDF ist akzeptiert, Ergebniss der Validierung sieht man in den external_task_client Log), falls eine nicht-PDF Datei hochgeladen wurde, geht der Prozess zurück zum letzten Schritt.
+7. Durch das folgende [DMN](https://en.wikipedia.org/wiki/Decision_Model_and_Notation) Modell wird entschieden ob Automatische Genehmigung des Anspruchs <br>
 ![claim DMN](https://github.com/kerilz/insurance-claim-demo/blob/7437c7ed763d91b2230f6aeb61a11e4b7d513467/dmn.png)
-- Falls Automatische Genehmigung möglich ist, wird gleich eine Bezahlung an den Versicherungsnehmer initiiert (implementiert durch [Java Delegate](https://docs.camunda.org/manual/7.20/user-guide/process-engine/delegation-code/#java-delegate))
-- Falls keine Automatische Genehmigung möglich ist, wird der Anspruch manuell durch einen Mitarbeiter Genehmigt oder Abgelehnt
-- In beiden Fällen wird an den Versicherungsnehmer eine entsprechende Nachricht verschickt.
+8. Falls Automatische Genehmigung möglich ist, wird gleich eine Bezahlung an den Versicherungsnehmer initiiert (implementiert durch [Java Delegate](https://docs.camunda.org/manual/7.20/user-guide/process-engine/delegation-code/#java-delegate))
+9. Falls keine Automatische Genehmigung möglich ist, wird der Anspruch manuell durch einen Mitarbeiter Genehmigt oder Abgelehnt
+10. In beiden Fällen wird an den Versicherungsnehmer eine entsprechende Nachricht verschickt.
 
 Somit endet Der Prozess
 
@@ -46,8 +48,20 @@ curl --location 'http://localhost:8080/engine-rest/process-definition/key/insura
     }
 }'
 ```
-- Die User Tasks werden unter `http://localhost:8080/camunda/app/tasklist/` erledigt, Ausführung der Service Tasks kann man in den Logs nachfolgen.
-- Alle Prozessinstanzen kann man unter `localhost:8081` einsehen.
+Wie oben beschrieben
+1. Daten werden automatisch Validiert
+2. User geht zu `http://localhost:8080/camunda/app/tasklist/` und erledigt die Usertask (oben recht Claim anclicken, checkboxen checken, Task completen)
+3. Risiko wird bewertet und Benutzer benachrichtigt (automatisch)
+4. `http://localhost:8080/camunda/app/tasklist/`, User lädt ein Dokument hoch (oben recht Claim anclicken, PDF Dokument wählen, Task completen)
+5. Es wird über automatische Genehmigung in dem DMN Task entschieden (automatisch)
+6. Falls keine automatische Genehmigung möglich, erledigt der User den Task "Manual Review": `http://localhost:8080/camunda/app/tasklist/`, oben recht Claim anclicken, Checkbox anclicken, Task completen (die Claim Daten kann man im Cockpit ansehen, siehe Anleitung unten)
+
+- Alle historischen Prozessinstanzen kann man unter `localhost:8081` einsehen.
+
+
+**CamundaWebApps:**
+
+
 
 
 **Weitere Infos:**
