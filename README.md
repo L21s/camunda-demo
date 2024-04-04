@@ -75,11 +75,11 @@ Wie oben beschrieben
    - Zum einloggen: Username: `demo`, Password: `demo`
    - Um einen Task zu bearbeiten, auf den Task klicken, Claim anclicken, Task bearbeiten, Task completen.
    - Um die Prozessvariablen zu sehen, auf den Link zum Cockpit klicken, auf die "Variables" Spalte klicken 
-   ![Tasklist]()
+   ![Tasklist](https://github.com/kerilz/insurance-claim-demo/blob/main/tasklist.png?raw=true)
 2. Cockpit: `http://localhost:8080/camunda/app/cockpit/`
    - Zum einloggen: Username: `demo`, Password: `demo`
    - Um laufende Prozessinstanzen zu sehen, auf `Process Definitions` klicken, auf `insuranceClaim` klicken. Historische Instanzen kann man nur mit Camunda Enterprise sehen, sonst kann man die über Rest API abfragen.
-   ![Cockpit]()
+   ![Cockpit](https://github.com/kerilz/insurance-claim-demo/blob/main/cockpit.png?raw=true)
 
 **Weitere Infos:**
 
