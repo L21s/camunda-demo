@@ -30,6 +30,8 @@
         <th>Email</th>
         <th>Estimated Cost</th>
         <th>Risk</th>
+        <th>Approved</th>
+        <th>Ended with error</th>
     </tr>
     </thead>
     <tbody id="processInstancesBody">
@@ -57,6 +59,8 @@
             <td>${variables.email}</td>
             <td>${variables.estimatedCost}</td>
             <td>${variables.risk}</td>
+            <td>${variables.approved}</td>
+            <td>${variables.endedWithError}</td>
           `;
                 processInstancesBody.appendChild(row);
             });

@@ -17,7 +17,7 @@ public class Application {
   }
 
   @Bean
-  public FilterRegistrationBean processCorsFilter() {
+  public FilterRegistrationBean<CorsFilter> processCorsFilter() {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowCredentials(true);
@@ -26,7 +26,7 @@ public class Application {
     config.addAllowedMethod("*");
     source.registerCorsConfiguration("/**", config);
 
-    FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+    FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
     bean.setOrder(0);
     return bean;
   }

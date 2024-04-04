@@ -28,12 +28,17 @@ function createEmailHandler(messageType) {
         const subject = messageTypeToSubject(messageType);
         const body = generateEmailBody(messageType, task.variables.get("fullName"));
 
-        await transporter.sendMail({
-            from: emailConfig.auth.user,
-            to,
-            subject,
-            text: body,
-        });
+        try {
+            await transporter.sendMail({
+                from: emailConfig.auth.user,
+                to,
+                subject,
+                text: body,
+            });
+        } catch (e) {
+            console.error("Failed to send email", e);
+            await taskService.complete(task); // just complete the task so that process can continue
+        }
 
         await taskService.complete(task);
     };

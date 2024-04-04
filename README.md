@@ -1,15 +1,26 @@
 # insurance-claim-demo
-Das demo Projekt implementiert ein beispielhaftes Prozess zur verarbeitung eines Versicherungsanspruchs. Der Prozess ist durch das folgende BPMN Diagramm beschrieben:
+Das demo Projekt implementiert ein beispielhaftes Prozess zur verarbeitung eines Versicherungsanspruchs (z.B. KFZ-Schaden). Der Prozess ist durch das folgende BPMN Diagramm beschrieben:
 
 ![insurance claim process BPMN](https://github.com/kerilz/insurance-claim-demo/blob/7437c7ed763d91b2230f6aeb61a11e4b7d513467/claim.png)
 
+Camunda ist ein Open Source Workflow- und Decision-Automatisierungs-Plattform. 
+Es bietet eine Benutzeroberfläche zur Modellierung und Ausführung von Prozessen, sowie eine REST API zur 
+Interaktion mit der Engine. Camunda kann in Java Applikationen eingebettet werden, oder als eigenständiger 
+Prozess auf einem Server laufen.
+
+Die Benutzeroberfläche von Camunda bietet eine Übersicht über laufende Prozessinstanzen (Cockpit), sowie die Möglichkeit Benutzeraufgaben zu bearbeiten (Tasklist).
+Für kurze Anleitung zur Benutzung der Benutzeroberfläche siehe [CamundaWebApps](#CamundaWebApps).
+Selbstverständlich kann eigene UI implementiert werden, die mit der Camunda Engine über REST kommuniziert.
+
 **Projektstruktur:**
 
-- insurance-claim-demo: Embedded Camunda Engine in form von einer Spring Boot App
-- risk: Risikobewertung Rest Service
-- external_task_client: eine Sammlung von External Task Workers zur Bearbeitung von [Service Tasks](https://docs.camunda.org/manual/7.20/reference/bpmn20/tasks/service-task/)
-- express_server: gibt eine Übersicht über alle Prozessinstanzen (einzelne Versicherungsansprüche)
-- models: BPMN und DMN Modelle, HTML Forms für User Tasks
+- insurance-claim-demo: Embedded Camunda Engine in form von einer Spring Boot App. 
+  - Die Process- und Entscheidungsmodelle liegen unter `src/main/resources/models`. So werden die Modelle automatisch bei Start der App in die Camunda Engine geladen.
+
+Folgende Module repräsentieren beispielhafte Services die an Camunda angeschlossen werden können:
+- risk: ein Teil des Processes bewertet das Risiko (Dubiosität) des Versicherungsfalls, unter `/risk` liegt ein Springboot Projekt welches über Rest die Möglichkeit zur Verfügung stellt, eine fiktive Risikobewertung durchzuführen.
+- external_task_client: eine Sammlung von External Task Workers zur Bearbeitung von [Service Tasks](https://docs.camunda.org/manual/7.20/reference/bpmn20/tasks/service-task/). Die Workers erledigen einzelne Aufgaben, z.B. Emailversand, Dokumentenvalidierung, Risikobewertung.
+- express_server: gibt eine Übersicht über alle Prozessinstanzen (einzelne Versicherungsfälle) und deren Status. Die Daten werden aus der Camunda Engine über Rest abgefragt.
 
 **Ablauf:**
 
@@ -31,10 +42,10 @@ Somit endet Der Prozess
 
 **Schritte zum Ausführen:**
 
-- external_task_client/emailConfig.yaml muss mit Email Zugangsdaten Konfiguriert werden
+- external_task_client/emailConfig.yaml muss mit Email Zugangsdaten konfiguriert werden (sonst wird Email nicht verschickt und der Prozess wird einfach weitergeführt)
 - `docker-compose up` im Root-Directory
 - Warten bis `Camunda engine has started. Subscribing to tasks...` im Log erscheint
-- Camunda Benutzeroberfläche läuft unter `localhost:8080`. Username und Password sind jeweils `demo`
+- Camunda Benutzeroberfläche (Tasklist, Cockpit, Admin) läuft unter `localhost:8080`. Username und Password sind jeweils `demo`
 - Zum Starten einer Prozessintanz muss ein REST Request folgender form verschickt werden: <br>
 ```
 curl --location 'http://localhost:8080/engine-rest/process-definition/key/insuranceClaim/start' \
@@ -60,9 +71,15 @@ Wie oben beschrieben
 
 
 **CamundaWebApps:**
-
-
-// TODO
+1. Tasklist: `http://localhost:8080/camunda/app/tasklist/`
+   - Zum einloggen: Username: `demo`, Password: `demo`
+   - Um einen Task zu bearbeiten, auf den Task klicken, Claim anclicken, Task bearbeiten, Task completen.
+   - Um die Prozessvariablen zu sehen, auf den Link zum Cockpit klicken, auf die "Variables" Spalte klicken 
+   ![Tasklist]()
+2. Cockpit: `http://localhost:8080/camunda/app/cockpit/`
+   - Zum einloggen: Username: `demo`, Password: `demo`
+   - Um laufende Prozessinstanzen zu sehen, auf `Process Definitions` klicken, auf `insuranceClaim` klicken. Historische Instanzen kann man nur mit Camunda Enterprise sehen, sonst kann man die über Rest API abfragen.
+   ![Cockpit]()
 
 **Weitere Infos:**
 

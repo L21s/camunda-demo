@@ -1,7 +1,7 @@
-service: "l21s"
+service: "Gmail"
 host: "smtp.l21s.de"
 port: 465
 secure: true
 auth:
-  user: "kyrylo@l21s.de"
-  pass: "password"
+  user: "kirill.zakurdaev@gmail.cm"
+  pass: "qpyhubfaimsikawg"

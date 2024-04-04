@@ -11,6 +11,9 @@
       <bpmn:errorEventDefinition id="ErrorEventDefinition_13z50wc" errorRef="Error_0hd8sd1" camunda:errorCodeVariable="validationErrorCode" camunda:errorMessageVariable="validationErrorMessage" />
     </bpmn:boundaryEvent>
     <bpmn:endEvent id="Event_0sm9enq">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${execution.setVariable(&#39;endedWithError&#39;, true)}" event="start" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_101os8c</bpmn:incoming>
       <bpmn:errorEventDefinition id="ErrorEventDefinition_18qhl6n" errorRef="Error_0hd8sd1" />
     </bpmn:endEvent>
@@ -107,6 +110,9 @@
       <bpmn:outgoing>Flow_1w6uqug</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="Event_1brwffc">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${execution.setVariable(&#39;endedWithError&#39;, false)}" event="end" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1xv7dr5</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_17adm3q" name="true" sourceRef="Gateway_02biovk" targetRef="Activity_08a9ofs">
